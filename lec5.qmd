@@ -1,0 +1,164 @@
+---
+title: "第4回講義コード解説"
+subtitle: "2025年度 神戸大学経済学部・経済統計学"
+date: today
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+
+thanks: |
+  神戸大学大学院経済学研究科博士後期課程.  
+  227e127e@gsuite.kobe-u.ac.jp.  
+  無断転載を禁じます.  
+  本資料に含まれる誤りはすべて筆者の責任によるものです.  
+  内容の正確性を期しておりますが、誤りや印刷上の不備がないことを保証するものではありません。  
+  もし誤りを見つけられた場合は、どうぞご連絡ください。
+
+format:
+  html:
+    theme: default
+    mainfont: "Noto Serif JP"
+    sansfont: "IBM Plex Sans JP"
+    number-sections: true
+execute:
+  echo: true          
+jupyter: nbstata      
+brand:
+  typography:
+    fonts:
+      - family: "Noto Serif JP"
+        source: google
+      - family: "IBM Plex Sans JP"
+        source: google
+    base: "Noto Serif JP"
+    headings:
+      family: "IBM Plex Sans JP"
+      weight: regular
+---
+
+# Stataによる実践（１）
+
+```{stata}
+clear all
+set more off
+
+*データのインポート
+
+import delimited "4-1.csv", clear
+```
+
+解説：
+
+- `clear all` はメモリ上のデータや設定をすべて初期化し、作業を一から始めるためのコマンドです。
+- `set more off` は出力が長くても自動で止まらないように設定します（結果が途中で止まらなくなる）。
+- `import delimited "4-1.csv", clear` は CSV 形式のデータ（ここでは「4-1.csv」）を読み込みます。
+- `clear` オプションで既存データを上書きして新しいデータを読み込みます。
+- このコマンドにより、Excelなどで保存された表形式のデータをStataに取り込めます。
+- 実際のdoファイルには `cd "'c(do)'" `　というコードが書いてありますがこれは自動的にdoファイルが置かれているフォルダを作業フォルダにするためのコマンドです。
+- WindowsでもMacでもLinuxでも、どのOSでも確実にdoファイルを動作させるために入れてあります。
+- doファイルを実行する際はデータファイルとdoファイルを同じ場所に置いておいてください。
+```{stata}
+*データ確認
+
+list id year y rd
+```
+
+解説：
+
+- `list` コマンドは、指定した変数の値を一覧表示します。
+- `list id year y rd` は、id（個体識別子）、year（年度）、y（被説明変数）、rd（説明変数）の4つを確認しています。
+- これにより、データの構造を目視でチェックします。
+
+```{stata}
+*パネルデータのセットアップ
+
+xtset id year
+```
+
+解説：
+
+- `xtset` は、Stata に「このデータはパネルデータである」と教えるコマンドです。
+- `id` が個体（企業・地域など）を識別し、`year` が時間を識別します。
+- この設定により、Stata は「同じidの中で時間が進む構造」を理解し、`xtreg`などのパネル分析コマンドを利用できるようになります。
+
+```{stata}
+*固定効果モデル推定
+
+xtreg y rd, fe
+```
+
+解説：
+
+- `xtreg` はパネルデータの回帰分析を行うコマンドです。
+- `xtreg y rd, fe` は 固定効果モデル（Fixed Effects Model） を推定します。
+- 固定効果モデルでは、各個体（`id`）や時間(`year`)に固有の効果（観測されない特性）を「ダミー変数」として吸収し、平均的な変化に焦点を当てます。
+- これにより、`rd` が `y` に与える純粋な影響を推定できます。
+
+```{stata}
+*ランダム効果モデル推定
+
+xtreg y rd, re
+```
+
+解説：
+
+- `xtreg y rd, re` は ランダム効果モデル（Random Effects Model） を推定します。
+- 固定効果モデルと異なり、固有効果を確率的（ランダム）に扱います。
+
+```{stata}
+*データ保存
+
+save 4-1.dta, replace
+```
+
+解説：
+
+- `save 4-1.dta, replace` は、現在のデータを Stata 形式（.dta）で保存します。
+- `replace` オプションにより、同名ファイルがあっても上書き保存されます。
+- .dta 形式は Stata 固有の形式で、後続の分析で直接利用できます。
+
+# Stataによる実践（2）
+
+解説は(1)を参照。
+
+```{stata}
+clear all
+set more off
+
+*データのインポート
+
+import delimited "4-3.csv", clear
+```
+
+```{stata}
+*データ確認
+
+list id year old growth
+```
+
+```{stata}
+*パネルデータのセットアップ
+
+xtset id year
+```
+
+```{stata}
+*固定効果モデル推定
+
+xtreg growth old, fe
+```
+
+```{stata}
+*ランダム効果モデル推定
+
+xtreg growth old, re
+```
+
+```{stata}
+*データ保存
+
+save 4-3.dta, replace
+```
