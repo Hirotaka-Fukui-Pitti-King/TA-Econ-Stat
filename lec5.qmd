@@ -1,5 +1,5 @@
 ---
-title: "第4回講義コード解説"
+title: "第5回講義コード解説"
 subtitle: "2025年度 神戸大学経済学部・経済統計学"
 date: today
 date-format: "YYYY年M月D日"
@@ -39,50 +39,88 @@ brand:
       weight: regular
 ---
 
-# Stataによる実践（１）
+# パネルデータセットの構築 1 (5-0.do)
 
 ```{stata}
 clear all
 set more off
 
-*データのインポート
-
-import delimited "4-1.csv", clear
+import delimited "5-1.csv", clear
 ```
 
-解説：
-
-- `clear all` はメモリ上のデータや設定をすべて初期化し、作業を一から始めるためのコマンドです。
-- `set more off` は出力が長くても自動で止まらないように設定します（結果が途中で止まらなくなる）。
-- `import delimited "4-1.csv", clear` は CSV 形式のデータ（ここでは「4-1.csv」）を読み込みます。
-- `clear` オプションで既存データを上書きして新しいデータを読み込みます。
-- このコマンドにより、Excelなどで保存された表形式のデータをStataに取り込めます。
-- 実際のdoファイルには `cd "'c(do)'" `　というコードが書いてありますがこれは自動的にdoファイルが置かれているフォルダを作業フォルダにするためのコマンドです。
-- WindowsでもMacでもLinuxでも、どのOSでも確実にdoファイルを動作させるために入れてあります。
-- doファイルを実行する際はデータファイルとdoファイルを同じ場所に置いておいてください。
 ```{stata}
 *データ確認
 
-list id year y rd
+list
+```
+
+```{stata}
+*5-1.csvからインポートしたyに関するデータを一旦5-1.dtaとして保存する
+
+save 5-1.dta, replace
 ```
 
 解説：
 
-- `list` コマンドは、指定した変数の値を一覧表示します。
-- `list id year y rd` は、id（個体識別子）、year（年度）、y（被説明変数）、rd（説明変数）の4つを確認しています。
-- これにより、データの構造を目視でチェックします。
 
 ```{stata}
-*パネルデータのセットアップ
+*5-2.csvを読み込んでrdに関するデータをインポートする
+
+import delimited "5-2.csv", clear
+```
+
+```{stata}
+*データ確認
+
+list
+```
+
+```{stata}
+*5-1.dtaに含まれるyに関するデータをidのラベルを使って手元にあるrdのデータと結びつける
+
+merge 1:1 id using 5-1.dta
+```
+
+解説：
+
+```{stata}
+*データ確認
+
+list
+```
+
+```{stata}
+*データ保存
+
+save 5-2.dta, replace
+```
+
+```{stata}
+*作ったデータをlong型に変換する
+
+reshape long y rd, i(id) j(year)
+
+```
+
+```{stata}
+*データ確認
+
+list
+```
+
+```{stata}
+*データ保存
+
+save 5-3.dta, replace
+```
+
+```{stata}
+*パネルデータとして読み込み
 
 xtset id year
 ```
 
-解説：
-
-- `xtset` は、Stata に「このデータはパネルデータである」と教えるコマンドです。
-- `id` が個体（企業・地域など）を識別し、`year` が時間を識別します。
-- この設定により、Stata は「同じidの中で時間が進む構造」を理解し、`xtreg`などのパネル分析コマンドを利用できるようになります。
+## doファイルには含まれていないけど、せっかくなのでパネルデータ分析
 
 ```{stata}
 *固定効果モデル推定
@@ -90,39 +128,13 @@ xtset id year
 xtreg y rd, fe
 ```
 
-解説：
-
-- `xtreg` はパネルデータの回帰分析を行うコマンドです。
-- `xtreg y rd, fe` は 固定効果モデル（Fixed Effects Model） を推定します。
-- 固定効果モデルでは、各個体（`id`）や時間(`year`)に固有の効果（観測されない特性）を「ダミー変数」として吸収し、平均的な変化に焦点を当てます。
-- これにより、`rd` が `y` に与える純粋な影響を推定できます。
-
 ```{stata}
 *ランダム効果モデル推定
 
 xtreg y rd, re
 ```
 
-解説：
-
-- `xtreg y rd, re` は ランダム効果モデル（Random Effects Model） を推定します。
-- 固定効果モデルと異なり、固有効果を確率的（ランダム）に扱います。
-
-```{stata}
-*データ保存
-
-save 4-1.dta, replace
-```
-
-解説：
-
-- `save 4-1.dta, replace` は、現在のデータを Stata 形式（.dta）で保存します。
-- `replace` オプションにより、同名ファイルがあっても上書き保存されます。
-- .dta 形式は Stata 固有の形式で、後続の分析で直接利用できます。
-
-# Stataによる実践（2）
-
-解説は(1)を参照。
+# パネルデータセットの構築 2 (5-1.do)
 
 ```{stata}
 clear all
@@ -130,35 +142,164 @@ set more off
 
 *データのインポート
 
-import delimited "4-3.csv", clear
+import delimited "5-3.csv", clear
 ```
 
 ```{stata}
 *データ確認
 
-list id year old growth
+list 
 ```
 
 ```{stata}
-*パネルデータのセットアップ
+*5-3.csvからインポートしたyに関するデータを一旦5-4.dtaとして保存する
 
+save 5-4.dta, replace
+```
+
+```{stata}
+
+import delimited "5-4.csv", clear
+```
+
+```{stata}
+*データ確認
+
+list 
+```
+
+```{stata}
+
+merge 1:1 id using 5-4.dta
+```
+
+```{stata}
+*データ確認
+
+list 
+```
+
+```{stata}
+
+save 5-5.dta, replace
+```
+
+```{stata}
+
+reshape long y iv, i(id) j(year)
+```
+
+```{stata}
+list
+```
+
+```{stata}
+save 5-6.dta, replace
+```
+
+```{stata}
 xtset id year
 ```
 
 ```{stata}
-*固定効果モデル推定
-
-xtreg growth old, fe
+xtreg iv y, fe
 ```
 
 ```{stata}
-*ランダム効果モデル推定
-
-xtreg growth old, re
+xtreg iv y, re
 ```
 
-```{stata}
-*データ保存
+# おまけ: Rでの実践
 
-save 4-3.dta, replace
+```{r}
+#| engine: knitr
+#| echo: true
+library(tidyverse)
+library(haven)   # write_dta
+library(plm) # FE/RE推定
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+# ========= y と rd をロング化して結合 =========
+y_raw  <- read_csv(file="5-1.csv", show_col_types = FALSE)
+rd_raw <- read_csv(file="5-2.csv", show_col_types = FALSE)
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+y_raw 
+rd_raw
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+y_long <- y_raw |>
+  pivot_longer(
+    cols = starts_with("y"),   # y1, y2, y3, ...
+    names_to = "year",         # 新しい列名
+    names_prefix = "y",        # "y" を取り除く
+    values_to = "y"            # 値を入れる列名
+  ) |>
+  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
+
+y_long
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+rd_long <- rd_raw |>
+  pivot_longer(
+    cols = starts_with("rd"),   # y1, y2, y3, ...
+    names_to = "year",         # 新しい列名
+    names_prefix = "rd",        # "y" を取り除く
+    values_to = "rd"            # 値を入れる列名
+  ) |>
+  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
+
+rd_long
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+panel_y_rd <- y_long |>
+  full_join(rd_long, by = c("id", "year")) |>
+  arrange(id, year)
+
+panel_y_rd
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+write_dta(panel_y_rd, "5-3-r.dta")
+```
+
+```{r}
+#| engine: knitr
+#| echo: true
+
+# ========= パネル推定（FE/RE） =========
+# NAは落とす
+dat <- panel_y_rd |> drop_na(y, rd)
+
+# plmで FE/RE
+pdata1 <- pdata.frame(dat, index = c("id", "year"))
+
+fe_mod1 <- plm(y ~ rd, data = pdata1, model = "within")       # 固定効果
+re_mod1 <- plm(y ~ rd, data = pdata1, model = "random")       # 変量効果
+
+print(summary(fe_mod1))
+print(summary(re_mod1))
 ```
