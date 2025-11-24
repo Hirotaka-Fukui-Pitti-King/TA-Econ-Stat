@@ -1,0 +1,198 @@
+---
+title: "第6回講義コード解説"
+subtitle: "2025年度 神戸大学経済学部・経済統計学"
+date: today
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+
+thanks: |
+  神戸大学大学院経済学研究科博士後期課程.  
+  227e127e@gsuite.kobe-u.ac.jp.  
+  無断転載を禁じます.  
+  本資料に含まれる誤りはすべて筆者の責任によるものです.  
+  内容の正確性を期しておりますが、誤りや印刷上の不備がないことを保証するものではありません。  
+  もし誤りを見つけられた場合は、どうぞご連絡ください。
+
+format:
+  html:
+    theme: default
+    mainfont: "Noto Serif JP"
+    sansfont: "IBM Plex Sans JP"
+    number-sections: true
+execute:
+  echo: true          
+jupyter: nbstata      
+brand:
+  typography:
+    fonts:
+      - family: "Noto Serif JP"
+        source: google
+      - family: "IBM Plex Sans JP"
+        source: google
+    base: "Noto Serif JP"
+    headings:
+      family: "IBM Plex Sans JP"
+      weight: regular
+---
+
+# 2項選択モデルの推定
+
+### データのインポート
+```{stata}
+clear all
+set more off
+
+import delimited 6-1.csv, clear
+
+rename v1 y //データセットを読み込むとv1という変数名になってしまうようなのでyに変えておきます。
+
+list
+```
+
+### 2項プロビットモデルの推定
+```{stata}
+probit y age kids
+```
+
+解説:
+
+- `probit`: 2項Probitモデルを推定するコマンドです。
+  - 被説明(従属)変数：`y`（0/1の二値変数であることを想定）
+  - 説明(独立)変数：`age, kids`
+
+### 2項ロジットモデルの推定
+```{stata}
+logit y age kids
+```
+
+解説:
+
+- `logit`: 2項Logitモデルを推定するコマンドです。
+  - 被説明(従属)変数：`y`
+  - 説明(独立)変数：`age, kids`
+
+### データの保存
+```{stata}
+save 6-1.dta, replace
+```
+
+
+# 順序付き多項選択モデルの推定
+
+### データのインポート
+```{stata}
+clear all
+set more off
+
+import delimited 6-2.csv, clear
+
+list
+```
+
+### 順序付きプロビットモデルの推定
+```{stata}
+oprobit leng c18 ed
+```
+
+解説:
+
+- `oprobit`: **O**rdinal **Probit**（順序付きProbit）モデルを推定します。
+  - 被説明変数：`leng`: 選択肢間に順序がついているデータであることが前提
+  - 説明変数: `c18、ed`
+
+### 順序付きロジットモデルの推定
+```{stata}
+ologit leng c18 ed
+```
+
+解説:
+
+- `ologit`: **O**rdinal **Logit**（順序付きLogit）モデルを推定します。
+  - 被説明変数：`leng`: 選択肢間に順序がついているデータであることが前提
+  - 説明変数: `c18、ed`
+
+### データの保存
+```{stata}
+save 6-2.dta, replace
+```
+
+# StataにおけるProbit/Logitモデル推定結果の"Coefficient"について
+
+## Probit/Logitモデル推定における被説明変数は何か?
+
+上のコードでProbitやLogitモデルを推定するコードとして
+
+```
+probit y age kids
+```
+
+や
+
+```
+logit y age kids
+```
+
+を使いました。ここではデータ`y`を被説明変数として指定しているわけですが、実際のprobit/logitモデルにおける被説明変数は (2項モデルの場合) データ`y`が1となる確率
+
+$$
+\text{Pr}(y=1) 
+$$
+
+です [^prob]。そのもとでモデルを
+
+$$
+\text{Pr}(y=1) = F(\alpha + \beta \text{age} + \gamma \text{kids})
+$$
+
+として推定しています。$F(\cdot)$ は正規分布などの分布関数です。
+
+
+[^prob]: 正確には「説明変数 $X$ が与えられたもとで被説明変数 $Y$ が1をとる条件付き確率 $\text{Pr}(Y=1|X)$ です。
+
+## Probit/Logitモデル推定における係数(パラメータ)と限界効果
+
+通常の線形モデル
+
+$$
+Y_{i} = \alpha + \beta X_{i} + u_{i}
+$$
+
+では推定される係数 $\beta$ は被説明変数 $Y_{i}$ に対する説明変数 $X_{i}$ の影響度合いを表す**限界効果**、つまり説明変数が1単位変化したときの被説明変数の変化 $\partial Y_{i}/\partial X_{i}$ として解釈ができます。
+
+しかし、非線形モデルであるProbit/Logitモデルでは推定される係数 $\beta$ を被説明変数 $\text{Pr}(y=1)$ に対する限界効果として単純に解釈することができません。
+
+したがってプロビットモデルやロジットモデルの推定結果を読み取る際には、結果に載っている推定値が**係数(パラメータ)**なのか**限界効果**なのかを区別することが重要になります。
+
+- 係数(パラメータ)の推定値: 数値自体には意味はあまりなく、統計的な有意性や符号条件のみを解釈する。
+- 限界効果: 説明変数が1単位変化したとき、被説明変数が1になる確率がどれくらい変化するかという影響度合いとして解釈する [^marginal]。
+
+[^marginal]: 2項モデルの場合はこのような解釈になります。多項モデルの場合は順序付きの場合はほとんど同じです。順序なしの場合は少し複雑になります。詳しくは第7講で。
+
+## StataにおけるProbit/Logitモデル推定`Coefficient`は「係数（パラメータそのもの）」であり、限界効果ではない
+
+Stataではlogit や probit の推定結果には最尤法で推定された**係数（パラメータそのもの）**が表示されます。
+
+限界効果がほしい場合は `margins` コマンドを使う必要があります。
+
+```{stata}
+#| include: false
+#| echo: false
+#| message: false
+#| warning: false
+
+clear all
+set more off
+
+import delimited 6-1.csv, clear
+
+rename v1 y //データセットを読み込むとv1という変数名になってしまうようなのでyに変えておきます。
+```
+
+```{stata}
+probit y age kids
+```
+
