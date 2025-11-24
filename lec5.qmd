@@ -62,12 +62,21 @@ save 5-1.dta, replace
 
 解説：
 
+- `save 5-1.dta, replace`: 今メモリにあるデータ（`5-1.csv` から読み込んだもの）を `5-1.dta` として保存します。
+
+- この段階で、「`id` と `y` が入ったデータ」をひとまず別ファイルとして保管しておき、あとで `merge` のときに使います。
 
 ```{stata}
 *5-2.csvを読み込んでrdに関するデータをインポートする
 
 import delimited "5-2.csv", clear
 ```
+
+解説: 
+
+- `import delimited "5-2.csv", clear`: 新たに 5-2.csv を読み込みます。
+- `clear` が付いているので、さきほど読み込んでいたデータはここで消去され、その代わりに `5-2.csv` のデータがメモリに入ります。
+- この 5-2.csv の中には `id` と `rd`に関するデータが入っています。
 
 ```{stata}
 *データ確認
@@ -83,6 +92,15 @@ merge 1:1 id using 5-1.dta
 
 解説：
 
+- この時点でメモリにあるのは `5-2.csv` 由来のデータ（`id`, `rd` など）です。
+- `merge 1:1 id using 5-1.dta`：
+  - `merge`：2つのデータセットを結合するコマンド。
+  - `1:1 id`：「現在のデータでも `id` は一意、`using` 側（`5-1.dta`）でも `id` は一意で、`id` ごとに1対1で対応しているはず」という指定。
+  - つまり、「各 `id` に対して `y` データと `rd` データを1件ずつ対応させて結合する」イメージです。
+- `using 5-1.dta`：
+  - 先に保存した `5-1.dta` を読み込み、現在のデータに対して `id` をキーにしてマージせよという指定。
+  - 結果として、同じ `id` を持つ観測同士が結合され、各行に `id, y, rd` がそろったデータセットが作られます（`_merge` という結合状況を示す変数も自動で作られます）。
+
 ```{stata}
 *データ確認
 
@@ -95,12 +113,30 @@ list
 save 5-2.dta, replace
 ```
 
+- 後でやり直したくなったときに、ここまでの処理を再びやらなくても `5-2.dta` からすぐに読み込めるようにしておくためのステップです。
+
 ```{stata}
 *作ったデータをlong型に変換する
 
 reshape long y rd, i(id) j(year)
 
 ```
+
+解説: 
+
+- `reshape` コマンドは、データの「形」を変える（wide 型 ⇔ long 型）ときに使います。
+- `reshape long y rd, i(id) j(year)`：
+  - `long`：「long 形式」に変換する、という指定。
+  - `y rd`： 変形の対象となる変数の「ベース名」。
+  - `i(id)`：個体（パネル）の識別子になる変数名。ここでは `id`。
+  - `j(year)`：時間の識別子として新しく作られる変数名。
+
+結果として、
+
+- 行：id と year の組み合わせ
+- 列：y と rd（その年の値）
+
+という、典型的なパネルデータの形に変換されます。
 
 ```{stata}
 *データ確認
@@ -209,97 +245,72 @@ xtreg iv y, fe
 xtreg iv y, re
 ```
 
-# おまけ: Rでの実践
+# データ処理における「Wide型」と「Long型」
 
-```{r}
-#| engine: knitr
-#| echo: true
-library(tidyverse)
-library(haven)   # write_dta
-library(plm) # FE/RE推定
-```
+## データ構造
 
-```{r}
-#| engine: knitr
-#| echo: true
+データ分析では、同じ情報でも「どういう形で並べるか」によって扱いやすさが大きく変わります。
 
-# ========= y と rd をロング化して結合 =========
-y_raw  <- read_csv(file="5-1.csv", show_col_types = FALSE)
-rd_raw <- read_csv(file="5-2.csv", show_col_types = FALSE)
-```
+- Wide（ワイド）型
 
-```{r}
-#| engine: knitr
-#| echo: true
+- Long（ロング）型
 
-y_raw 
-rd_raw
-```
+の2種類の形がよく使われます。
 
-```{r}
-#| engine: knitr
-#| echo: true
+## Wide型（ワイド型）とは？
 
-y_long <- y_raw |>
-  pivot_longer(
-    cols = starts_with("y"),   # y1, y2, y3, ...
-    names_to = "year",         # 新しい列名
-    names_prefix = "y",        # "y" を取り除く
-    values_to = "y"            # 値を入れる列名
-  ) |>
-  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
+**定義**: 横に変数が並ぶ形式。1行＝1個体で、各時点の値は別々の列になる。
 
-y_long
-```
+データをとってくるとWide型になっていることが多い
 
-```{r}
-#| engine: knitr
-#| echo: true
+例：y と rd のパネルデータ（例：企業 × 年）
 
-rd_long <- rd_raw |>
-  pivot_longer(
-    cols = starts_with("rd"),   # y1, y2, y3, ...
-    names_to = "year",         # 新しい列名
-    names_prefix = "rd",        # "y" を取り除く
-    values_to = "rd"            # 値を入れる列名
-  ) |>
-  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
+| id | y2018 | y2019 | y2020 | rd2018 | rd2019 | rd2020 |
+| -- | ----- | ----- | ----- | ------ | ------ | ------ |
+| 1  | 10    | 12    | 13    | 5      | 4      | 6      |
+| 2  | 20    | 19    | 22    | 7      | 8      | 9      |
 
-rd_long
-```
+**特徴**
 
-```{r}
-#| engine: knitr
-#| echo: true
+- メリット
 
-panel_y_rd <- y_long |>
-  full_join(rd_long, by = c("id", "year")) |>
-  arrange(id, year)
+1. 見た目が直感的（Excel 的）
+2. 個体ごとの変化が横方向で見やすい
 
-panel_y_rd
-```
+- デメリット
 
-```{r}
-#| engine: knitr
-#| echo: true
+1. 時点数が増えると列が爆発的に増える
+2. 回帰分析などの推定コマンドを適用しにくい
 
-write_dta(panel_y_rd, "5-3-r.dta")
-```
+## Long型（ロング型）とは？
 
-```{r}
-#| engine: knitr
-#| echo: true
+**定義**: 縦に観測が並ぶ形式。1行＝1個体 × 1時点。
 
-# ========= パネル推定（FE/RE） =========
-# NAは落とす
-dat <- panel_y_rd |> drop_na(y, rd)
+例（上と同じデータを Long に変換）
 
-# plmで FE/RE
-pdata1 <- pdata.frame(dat, index = c("id", "year"))
+| id | year | y  | rd |
+| -- | ---- | -- | -- |
+| 1  | 2018 | 10 | 5  |
+| 1  | 2019 | 12 | 4  |
+| 1  | 2020 | 13 | 6  |
+| 2  | 2018 | 20 | 7  |
+| 2  | 2019 | 19 | 8  |
+| 2  | 2020 | 22 | 9  |
 
-fe_mod1 <- plm(y ~ rd, data = pdata1, model = "within")       # 固定効果
-re_mod1 <- plm(y ~ rd, data = pdata1, model = "random")       # 変量効果
+**特徴**
 
-print(summary(fe_mod1))
-print(summary(re_mod1))
-```
+- メリット
+
+1. 分析コマンドがそのまま使える
+2. tidyverse（R）や pandas（Python）など多くの分析ツールで標準形
+3. 時点数が増えても列数が増えない（扱いやすい）
+4. groupby / summarize がしやすい
+
+- デメリット
+
+1. 表のサイズが長くなる
+2. 初見だとやや直感的でない
+
+
+
+

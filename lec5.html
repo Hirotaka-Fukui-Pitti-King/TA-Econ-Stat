@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年11月12日</p>
+      <p class="date">2025年11月25日</p>
     </div>
   </div>
   
@@ -129,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="パネルデータセットの構築-1-5-0.do" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> パネルデータセットの構築 1 (5-0.do)</h1>
-<div id="8fcedf1f" class="cell" data-execution_count="1">
+<div id="61f4f0ad" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (6 vars, 3 obs)</code></pre>
 </div>
 </div>
-<div id="47547dea" class="cell" data-execution_count="2">
+<div id="22f561ee" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
      +---------------------------------------+</code></pre>
 </div>
 </div>
-<div id="2cd27f01" class="cell" data-execution_count="3">
+<div id="79ea8a18" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>*5-1.csvからインポートしたyに関するデータを一旦5-1.dtaとして保存する</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-1.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -166,7 +166,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>解説：</p>
-<div id="bab94484" class="cell" data-execution_count="4">
+<ul>
+<li><p><code>save 5-1.dta, replace</code>: 今メモリにあるデータ（<code>5-1.csv</code> から読み込んだもの）を <code>5-1.dta</code> として保存します。</p></li>
+<li><p>この段階で、「<code>id</code> と <code>y</code> が入ったデータ」をひとまず別ファイルとして保管しておき、あとで <code>merge</code> のときに使います。</p></li>
+</ul>
+<div id="4562f4e9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>*5-2.csvを読み込んでrdに関するデータをインポートする</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"5-2.csv"</span>, <span class="kw">clear</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -175,7 +179,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (6 vars, 3 obs)</code></pre>
 </div>
 </div>
-<div id="c411d4b8" class="cell" data-execution_count="5">
+<p>解説:</p>
+<ul>
+<li><code>import delimited "5-2.csv", clear</code>: 新たに 5-2.csv を読み込みます。</li>
+<li><code>clear</code> が付いているので、さきほど読み込んでいたデータはここで消去され、その代わりに <code>5-2.csv</code> のデータがメモリに入ります。</li>
+<li>この 5-2.csv の中には <code>id</code> と <code>rd</code>に関するデータが入っています。</li>
+</ul>
+<div id="56fb6862" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -190,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
      +---------------------------------------+</code></pre>
 </div>
 </div>
-<div id="1b114824" class="cell" data-execution_count="6">
+<div id="59157106" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>*5-1.dtaに含まれるyに関するデータをidのラベルを使って手元にあるrdのデータと結びつける</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> 1:1 id <span class="kw">using</span> 5-1.dta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -204,7 +214,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>解説：</p>
-<div id="c7509dbe" class="cell" data-execution_count="7">
+<ul>
+<li>この時点でメモリにあるのは <code>5-2.csv</code> 由来のデータ（<code>id</code>, <code>rd</code> など）です。</li>
+<li><code>merge 1:1 id using 5-1.dta</code>：
+<ul>
+<li><code>merge</code>：2つのデータセットを結合するコマンド。</li>
+<li><code>1:1 id</code>：「現在のデータでも <code>id</code> は一意、<code>using</code> 側（<code>5-1.dta</code>）でも <code>id</code> は一意で、<code>id</code> ごとに1対1で対応しているはず」という指定。</li>
+<li>つまり、「各 <code>id</code> に対して <code>y</code> データと <code>rd</code> データを1件ずつ対応させて結合する」イメージです。</li>
+</ul></li>
+<li><code>using 5-1.dta</code>：
+<ul>
+<li>先に保存した <code>5-1.dta</code> を読み込み、現在のデータに対して <code>id</code> をキーにしてマージせよという指定。</li>
+<li>結果として、同じ <code>id</code> を持つ観測同士が結合され、各行に <code>id, y, rd</code> がそろったデータセットが作られます（<code>_merge</code> という結合状況を示す変数も自動で作られます）。</li>
+</ul></li>
+</ul>
+<div id="4e6868d6" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -235,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
      +-------------------------------------------------------------------+</code></pre>
 </div>
 </div>
-<div id="6b78bbb2" class="cell" data-execution_count="8">
+<div id="a8ddd2a2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>*データ保存</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-2.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -243,7 +267,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>file 5-2.dta saved</code></pre>
 </div>
 </div>
-<div id="c27f8a54" class="cell" data-execution_count="9">
+<ul>
+<li>後でやり直したくなったときに、ここまでの処理を再びやらなくても <code>5-2.dta</code> からすぐに読み込めるようにしておくためのステップです。</li>
+</ul>
+<div id="f570b0d5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>*作ったデータをlong型に変換する</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">reshape</span> <span class="kw">long</span> <span class="fu">y</span> rd, i(id) j(<span class="fu">year</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -261,7 +288,24 @@ xij variables:
 -----------------------------------------------------------------------------</code></pre>
 </div>
 </div>
-<div id="0d99f886" class="cell" data-execution_count="10">
+<p>解説:</p>
+<ul>
+<li><code>reshape</code> コマンドは、データの「形」を変える（wide 型 ⇔ long 型）ときに使います。</li>
+<li><code>reshape long y rd, i(id) j(year)</code>：
+<ul>
+<li><code>long</code>：「long 形式」に変換する、という指定。</li>
+<li><code>y rd</code>： 変形の対象となる変数の「ベース名」。</li>
+<li><code>i(id)</code>：個体（パネル）の識別子になる変数名。ここでは <code>id</code>。</li>
+<li><code>j(year)</code>：時間の識別子として新しく作られる変数名。</li>
+</ul></li>
+</ul>
+<p>結果として、</p>
+<ul>
+<li>行：id と year の組み合わせ</li>
+<li>列：y と rd（その年の値）</li>
+</ul>
+<p>という、典型的なパネルデータの形に変換されます。</p>
+<div id="b2083d96" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -290,7 +334,7 @@ xij variables:
      +---------------------------------------+</code></pre>
 </div>
 </div>
-<div id="8546e3cd" class="cell" data-execution_count="11">
+<div id="4f27a153" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>*データ保存</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-3.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -298,7 +342,7 @@ xij variables:
 <pre><code>file 5-3.dta saved</code></pre>
 </div>
 </div>
-<div id="aae85414" class="cell" data-execution_count="12">
+<div id="51511253" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>*パネルデータとして読み込み</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>xtset id <span class="fu">year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -311,7 +355,7 @@ Panel variable: id (strongly balanced)
 </div>
 <section id="doファイルには含まれていないけどせっかくなのでパネルデータ分析" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="doファイルには含まれていないけどせっかくなのでパネルデータ分析"><span class="header-section-number">1.1</span> doファイルには含まれていないけど、せっかくなのでパネルデータ分析</h2>
-<div id="80980430" class="cell" data-execution_count="13">
+<div id="16d00957" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>*固定効果モデル推定</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">xtreg</span> <span class="fu">y</span> rd, <span class="kw">fe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -341,7 +385,7 @@ corr(u_i, Xb) = -0.6489                         Prob &gt; F          =     0.000
 F test that all u_i=0: F(2, 11) = 46.14                      Prob &gt; F = 0.0000</code></pre>
 </div>
 </div>
-<div id="0fc43add" class="cell" data-execution_count="14">
+<div id="75752cad" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>*ランダム効果モデル推定</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">xtreg</span> <span class="fu">y</span> rd, re</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -374,7 +418,7 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
 </section>
 <section id="パネルデータセットの構築-2-5-1.do" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> パネルデータセットの構築 2 (5-1.do)</h1>
-<div id="86d6aef9" class="cell" data-execution_count="15">
+<div id="61f6e9fe" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -386,7 +430,7 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
 (11 vars, 5 obs)</code></pre>
 </div>
 </div>
-<div id="64e13adc" class="cell" data-execution_count="16">
+<div id="cc967f4e" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -403,7 +447,7 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
      +----------------------------------------------------------------+</code></pre>
 </div>
 </div>
-<div id="79853a54" class="cell" data-execution_count="17">
+<div id="acbdab3f" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>*5-3.csvからインポートしたyに関するデータを一旦5-4.dtaとして保存する</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-4.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -411,14 +455,14 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
 <pre><code>file 5-4.dta saved</code></pre>
 </div>
 </div>
-<div id="096e03d5" class="cell" data-execution_count="18">
+<div id="d4e83dee" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"5-4.csv"</span>, <span class="kw">clear</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(encoding automatically selected: UTF-8)
 (11 vars, 5 obs)</code></pre>
 </div>
 </div>
-<div id="ea255348" class="cell" data-execution_count="19">
+<div id="f9ced00c" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -435,7 +479,7 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
      +-----------------------------------------------------------------+</code></pre>
 </div>
 </div>
-<div id="d6474ae1" class="cell" data-execution_count="20">
+<div id="a030f286" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> 1:1 id <span class="kw">using</span> 5-4.dta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -446,7 +490,7 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
     -----------------------------------------</code></pre>
 </div>
 </div>
-<div id="c0d083c2" class="cell" data-execution_count="21">
+<div id="c322be7f" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>*データ確認</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -493,13 +537,13 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.000
      +-----------------------------------------------------------------------+</code></pre>
 </div>
 </div>
-<div id="e1a9aad4" class="cell" data-execution_count="22">
+<div id="7123c488" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-5.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>file 5-5.dta saved</code></pre>
 </div>
 </div>
-<div id="f5f036ea" class="cell" data-execution_count="23">
+<div id="ce3b86cd" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reshape</span> <span class="kw">long</span> <span class="fu">y</span> iv, i(id) j(<span class="fu">year</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(j = 1 2 3 4 5 6 7 8 9 10)
@@ -515,7 +559,7 @@ xij variables:
 -----------------------------------------------------------------------------</code></pre>
 </div>
 </div>
-<div id="ab5c17c1" class="cell" data-execution_count="24">
+<div id="fd81dfb0" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -584,13 +628,13 @@ xij variables:
      +------------------------------------+</code></pre>
 </div>
 </div>
-<div id="8eab6bed" class="cell" data-execution_count="25">
+<div id="b1a8f917" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 5-6.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>file 5-6.dta saved</code></pre>
 </div>
 </div>
-<div id="f46ebcff" class="cell" data-execution_count="26">
+<div id="c8c0299d" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>xtset id <span class="fu">year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -599,7 +643,7 @@ Panel variable: id (strongly balanced)
          Delta: 1 unit</code></pre>
 </div>
 </div>
-<div id="c35a54ee" class="cell" data-execution_count="27">
+<div id="51e2f3fe" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">xtreg</span> iv <span class="fu">y</span>, <span class="kw">fe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -627,7 +671,7 @@ corr(u_i, Xb) = -0.1816                         Prob &gt; F          =     0.177
 F test that all u_i=0: F(4, 44) = 50.31                      Prob &gt; F = 0.0000</code></pre>
 </div>
 </div>
-<div id="44b7ee9d" class="cell" data-execution_count="28">
+<div id="4f0527cb" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">xtreg</span> iv <span class="fu">y</span>, re</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -655,77 +699,141 @@ corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.181
 </div>
 </div>
 </section>
-<section id="おまけ-rでの実践" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> おまけ: Rでの実践</h1>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-library(tidyverse)
-library(haven)   # write_dta
-library(plm) # FE/RE推定</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-# ========= y と rd をロング化して結合 =========
-y_raw  &lt;- read_csv(file="5-1.csv", show_col_types = FALSE)
-rd_raw &lt;- read_csv(file="5-2.csv", show_col_types = FALSE)</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-y_raw 
-rd_raw</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-y_long &lt;- y_raw |&gt;
-  pivot_longer(
-    cols = starts_with("y"),   # y1, y2, y3, ...
-    names_to = "year",         # 新しい列名
-    names_prefix = "y",        # "y" を取り除く
-    values_to = "y"            # 値を入れる列名
-  ) |&gt;
-  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
-
-y_long</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-rd_long &lt;- rd_raw |&gt;
-  pivot_longer(
-    cols = starts_with("rd"),   # y1, y2, y3, ...
-    names_to = "year",         # 新しい列名
-    names_prefix = "rd",        # "y" を取り除く
-    values_to = "rd"            # 値を入れる列名
-  ) |&gt;
-  mutate(year = 1999 + as.numeric(year))  # 2000, 2001, ...
-
-rd_long</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-panel_y_rd &lt;- y_long |&gt;
-  full_join(rd_long, by = c("id", "year")) |&gt;
-  arrange(id, year)
-
-panel_y_rd</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-write_dta(panel_y_rd, "5-3-r.dta")</code></pre>
-<pre class="{r}"><code>#| engine: knitr
-#| echo: true
-
-# ========= パネル推定（FE/RE） =========
-# NAは落とす
-dat &lt;- panel_y_rd |&gt; drop_na(y, rd)
-
-# plmで FE/RE
-pdata1 &lt;- pdata.frame(dat, index = c("id", "year"))
-
-fe_mod1 &lt;- plm(y ~ rd, data = pdata1, model = "within")       # 固定効果
-re_mod1 &lt;- plm(y ~ rd, data = pdata1, model = "random")       # 変量効果
-
-print(summary(fe_mod1))
-print(summary(re_mod1))</code></pre>
+<section id="データ処理におけるwide型とlong型" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> データ処理における「Wide型」と「Long型」</h1>
+<section id="データ構造" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="データ構造"><span class="header-section-number">3.1</span> データ構造</h2>
+<p>データ分析では、同じ情報でも「どういう形で並べるか」によって扱いやすさが大きく変わります。</p>
+<ul>
+<li><p>Wide（ワイド）型</p></li>
+<li><p>Long（ロング）型</p></li>
+</ul>
+<p>の2種類の形がよく使われます。</p>
+</section>
+<section id="wide型ワイド型とは" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="wide型ワイド型とは"><span class="header-section-number">3.2</span> Wide型（ワイド型）とは？</h2>
+<p><strong>定義</strong>: 横に変数が並ぶ形式。1行＝1個体で、各時点の値は別々の列になる。</p>
+<p>データをとってくるとWide型になっていることが多い</p>
+<p>例：y と rd のパネルデータ（例：企業 × 年）</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>y2018</th>
+<th>y2019</th>
+<th>y2020</th>
+<th>rd2018</th>
+<th>rd2019</th>
+<th>rd2020</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>10</td>
+<td>12</td>
+<td>13</td>
+<td>5</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>20</td>
+<td>19</td>
+<td>22</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>特徴</strong></p>
+<ul>
+<li>メリット</li>
+</ul>
+<ol type="1">
+<li>見た目が直感的（Excel 的）</li>
+<li>個体ごとの変化が横方向で見やすい</li>
+</ol>
+<ul>
+<li>デメリット</li>
+</ul>
+<ol type="1">
+<li>時点数が増えると列が爆発的に増える</li>
+<li>回帰分析などの推定コマンドを適用しにくい</li>
+</ol>
+</section>
+<section id="long型ロング型とは" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="long型ロング型とは"><span class="header-section-number">3.3</span> Long型（ロング型）とは？</h2>
+<p><strong>定義</strong>: 縦に観測が並ぶ形式。1行＝1個体 × 1時点。</p>
+<p>例（上と同じデータを Long に変換）</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>year</th>
+<th>y</th>
+<th>rd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2018</td>
+<td>10</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>2019</td>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>2020</td>
+<td>13</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2018</td>
+<td>20</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>2019</td>
+<td>19</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2020</td>
+<td>22</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>特徴</strong></p>
+<ul>
+<li>メリット</li>
+</ul>
+<ol type="1">
+<li>分析コマンドがそのまま使える</li>
+<li>tidyverse（R）や pandas（Python）など多くの分析ツールで標準形</li>
+<li>時点数が増えても列数が増えない（扱いやすい）</li>
+<li>groupby / summarize がしやすい</li>
+</ol>
+<ul>
+<li>デメリット</li>
+</ul>
+<ol type="1">
+<li>表のサイズが長くなる</li>
+<li>初見だとやや直感的でない</li>
+</ol>
+</section>
 </section>
 
 </main>
