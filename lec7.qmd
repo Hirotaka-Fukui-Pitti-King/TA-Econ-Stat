@@ -1,0 +1,101 @@
+---
+title: "第7回講義コード解説"
+subtitle: "2025年度 神戸大学経済学部・経済統計学"
+date: today
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+
+thanks: |
+  神戸大学大学院経済学研究科博士後期課程.  
+  227e127e@gsuite.kobe-u.ac.jp.  
+  無断転載を禁じます.  
+  本資料に含まれる誤りはすべて筆者の責任によるものです.  
+  内容の正確性を期しておりますが、誤りや印刷上の不備がないことを保証するものではありません。  
+  もし誤りを見つけられた場合は、どうぞご連絡ください。
+
+format:
+  html:
+    theme: default
+    mainfont: "Noto Serif JP"
+    sansfont: "IBM Plex Sans JP"
+    number-sections: true
+execute:
+  echo: true          
+jupyter: nbstata      
+brand:
+  typography:
+    fonts:
+      - family: "Noto Serif JP"
+        source: google
+      - family: "IBM Plex Sans JP"
+        source: google
+    base: "Noto Serif JP"
+    headings:
+      family: "IBM Plex Sans JP"
+      weight: regular
+---
+
+```{stata}
+clear all
+set more off
+
+import delimited 7-1.csv, clear
+
+list
+```
+
+```{stata}
+probit grade psi gpa tuce
+```
+
+```{stata}
+margins, dydx(psi gpa tuce)
+```
+```{stata}
+logit grade psi gpa tuce
+```
+
+```{stata}
+margins, dydx(psi gpa tuce)
+```
+
+```{stata}
+logit grade psi gpa tuce, robust
+```
+
+```{stata}
+margins, dydx(psi gpa tuce)
+```
+
+```{stata}
+probit grade psi gpa tuce, robust
+```
+
+```{stata}
+margins, dydx(psi gpa tuce)
+```
+
+```{stata}
+save 7-1.dta, replace
+```
+
+```{stata}
+clear all
+set more off
+
+import delimited 7-2.csv, clear
+
+list
+```
+
+```{stata}
+tobit hour c18 age ed hi
+```
+
+```{stata}
+margins, dydx(c18 age ed hi)
+```

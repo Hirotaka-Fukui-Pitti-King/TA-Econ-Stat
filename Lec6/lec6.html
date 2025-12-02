@@ -160,7 +160,7 @@ window.Quarto = {
 <h1 data-number="1"><span class="header-section-number">1</span> 2項選択モデルの推定</h1>
 <section id="データのインポート" class="level3" data-number="1.0.1">
 <h3 data-number="1.0.1" class="anchored" data-anchor-id="データのインポート"><span class="header-section-number">1.0.1</span> データのインポート</h3>
-<div id="aca25196" class="cell" data-execution_count="1">
+<div id="e0d76bf7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -208,7 +208,7 @@ window.Quarto = {
 </section>
 <section id="項プロビットモデルの推定" class="level3" data-number="1.0.2">
 <h3 data-number="1.0.2" class="anchored" data-anchor-id="項プロビットモデルの推定"><span class="header-section-number">1.0.2</span> 2項プロビットモデルの推定</h3>
-<div id="10fc98bf" class="cell" data-execution_count="2">
+<div id="7029fe09" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> <span class="fu">y</span> age kids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -243,7 +243,7 @@ Log likelihood = -7.178533                              Pseudo R2     = 0.4667
 </section>
 <section id="項ロジットモデルの推定" class="level3" data-number="1.0.3">
 <h3 data-number="1.0.3" class="anchored" data-anchor-id="項ロジットモデルの推定"><span class="header-section-number">1.0.3</span> 2項ロジットモデルの推定</h3>
-<div id="2585bd07" class="cell" data-execution_count="3">
+<div id="418f1a8b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> <span class="fu">y</span> age kids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -279,7 +279,7 @@ Log likelihood = -7.2634338                             Pseudo R2     = 0.4604
 </section>
 <section id="データの保存" class="level3" data-number="1.0.4">
 <h3 data-number="1.0.4" class="anchored" data-anchor-id="データの保存"><span class="header-section-number">1.0.4</span> データの保存</h3>
-<div id="9583bdef" class="cell" data-execution_count="4">
+<div id="8ad53e5d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 6-1.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>file 6-1.dta saved</code></pre>
@@ -291,7 +291,7 @@ Log likelihood = -7.2634338                             Pseudo R2     = 0.4604
 <h1 data-number="2"><span class="header-section-number">2</span> 順序付き多項選択モデルの推定</h1>
 <section id="データのインポート-1" class="level3" data-number="2.0.1">
 <h3 data-number="2.0.1" class="anchored" data-anchor-id="データのインポート-1"><span class="header-section-number">2.0.1</span> データのインポート</h3>
-<div id="7c489172" class="cell" data-execution_count="5">
+<div id="142dfa8a" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -370,7 +370,7 @@ Log likelihood = -7.2634338                             Pseudo R2     = 0.4604
 </section>
 <section id="順序付きプロビットモデルの推定" class="level3" data-number="2.0.2">
 <h3 data-number="2.0.2" class="anchored" data-anchor-id="順序付きプロビットモデルの推定"><span class="header-section-number">2.0.2</span> 順序付きプロビットモデルの推定</h3>
-<div id="75a2441b" class="cell" data-execution_count="6">
+<div id="19d6bfcf" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">oprobit</span> leng c18 ed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -406,7 +406,7 @@ Log likelihood = -52.619314                             Pseudo R2     = 0.0363
 </section>
 <section id="順序付きロジットモデルの推定" class="level3" data-number="2.0.3">
 <h3 data-number="2.0.3" class="anchored" data-anchor-id="順序付きロジットモデルの推定"><span class="header-section-number">2.0.3</span> 順序付きロジットモデルの推定</h3>
-<div id="7bf4eb36" class="cell" data-execution_count="7">
+<div id="9f6fefd2" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ologit</span> leng c18 ed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -442,7 +442,7 @@ Log likelihood = -52.677582                             Pseudo R2     = 0.0352
 </section>
 <section id="データの保存-1" class="level3" data-number="2.0.4">
 <h3 data-number="2.0.4" class="anchored" data-anchor-id="データの保存-1"><span class="header-section-number">2.0.4</span> データの保存</h3>
-<div id="f2341b18" class="cell" data-execution_count="8">
+<div id="34f83df9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> 6-2.dta, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>file 6-2.dta saved</code></pre>
@@ -460,9 +460,13 @@ Log likelihood = -52.677582                             Pseudo R2     = 0.0352
 <pre><code>logit y age kids</code></pre>
 <p>を使いました。ここではデータ<code>y</code>を被説明変数として指定しているわけですが、実際のprobit/logitモデルにおける被説明変数は (2項モデルの場合) データ<code>y</code>が1となる確率</p>
 <p><span class="math display">\[
-\text{Pr}(y=1)
+\text{P}(y=1)
 \]</span></p>
-<p>です <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。</p>
+<p>です <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。そのもとでモデルを</p>
+<p><span class="math display">\[
+\text{P}(y=1) = F(\alpha + \beta \text{age} + \gamma \text{kids})
+\]</span></p>
+<p>として推定しています。<span class="math inline">\(F(\cdot)\)</span> は正規分布などの分布関数です。</p>
 </section>
 <section id="probitlogitモデル推定における係数パラメータと限界効果" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="probitlogitモデル推定における係数パラメータと限界効果"><span class="header-section-number">3.2</span> Probit/Logitモデル推定における係数(パラメータ)と限界効果</h2>
@@ -471,10 +475,186 @@ Log likelihood = -52.677582                             Pseudo R2     = 0.0352
 Y_{i} = \alpha + \beta X_{i} + u_{i}
 \]</span></p>
 <p>では推定される係数 <span class="math inline">\(\beta\)</span> は被説明変数 <span class="math inline">\(Y_{i}\)</span> に対する説明変数 <span class="math inline">\(X_{i}\)</span> の影響度合いを表す<strong>限界効果</strong>、つまり説明変数が1単位変化したときの被説明変数の変化 <span class="math inline">\(\partial Y_{i}/\partial X_{i}\)</span> として解釈ができます。</p>
-<p>しかし、非線形モデルであるProbit/Logitモデルでは推定される係数 <span class="math inline">\(\beta\)</span> を被説明変数</p>
+<p>しかし、非線形モデルであるProbit/Logitモデルでは推定される係数 <span class="math inline">\(\beta\)</span> を被説明変数 <span class="math inline">\(\text{P}(y=1)\)</span> に対する限界効果として単純に解釈することができません。</p>
+<p>したがってプロビットモデルやロジットモデルの推定結果を読み取る際には、結果に載っている推定値が<strong>係数(パラメータ)</strong>なのか<strong>限界効果</strong>なのかを区別することが重要になります。</p>
+<ul>
+<li>係数(パラメータ)の推定値: 数値自体には意味はあまりなく、統計的な有意性や符号条件のみを解釈する。</li>
+<li>限界効果: 説明変数が1単位変化したとき、被説明変数が1になる確率がどれくらい変化するかという影響度合いとして解釈する <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。</li>
+</ul>
 </section>
 <section id="stataにおけるprobitlogitモデル推定coefficientは係数パラメータそのものであり限界効果ではない" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="stataにおけるprobitlogitモデル推定coefficientは係数パラメータそのものであり限界効果ではない"><span class="header-section-number">3.3</span> StataにおけるProbit/Logitモデル推定<code>Coefficient</code>は「係数（パラメータそのもの）」であり、限界効果ではない</h2>
+<p>Stataではlogit や probit の推定結果には最尤法で推定された<strong>係数（パラメータそのもの）</strong>が表示されます。</p>
+<p>限界効果がほしい場合は <code>margins</code> コマンドを使う必要があります。</p>
+<div id="d3020ff0" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>import delimited 6-1.csv, <span class="kw">clear</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">rename</span> v1 <span class="fu">y</span> <span class="co">//データセットを読み込むとv1という変数名になってしまうようなのでyに変えておきます。</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(encoding automatically selected: ISO-8859-9)
+(3 vars, 20 obs)</code></pre>
+</div>
+</div>
+<div id="0d023fd9" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> <span class="fu">y</span> age kids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iteration 0:  Log likelihood = -13.460233  
+Iteration 1:  Log likelihood = -7.2928849  
+Iteration 2:  Log likelihood = -7.1792068  
+Iteration 3:  Log likelihood = -7.1785332  
+Iteration 4:  Log likelihood =  -7.178533  
+
+Probit regression                                       Number of obs =     20
+                                                        LR chi2(2)    =  12.56
+                                                        Prob &gt; chi2   = 0.0019
+Log likelihood = -7.178533                              Pseudo R2     = 0.4667
+
+------------------------------------------------------------------------------
+           y | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         age |   .0324635   .0649387     0.50   0.617     -.094814     .159741
+        kids |  -1.686062   .6651661    -2.53   0.011    -2.989763   -.3823602
+       _cons |   1.310497   2.411546     0.54   0.587    -3.416047    6.037041
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p><strong>(平均)限界効果を取り出す</strong></p>
+<div id="a8ff999d" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>margins, <span class="kw">dydx</span>(age kids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Average marginal effects                                    Number of obs = 20
+Model VCE: OIM
+
+Expression: Pr(y), predict()
+dy/dx wrt:  age kids
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         age |   .0063566   .0123832     0.51   0.608    -.0179141    .0306273
+        kids |  -.3301441   .0484267    -6.82   0.000    -.4250588   -.2352294
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>平均限界効果（Average Marginal Effects）とは</p>
+<ul>
+<li>個々の観測値ごとに限界効果を計算</li>
+<li>それらを平均したもの</li>
+</ul>
+<p><strong>解釈</strong></p>
+<ol type="1">
+<li>age の限界効果は 0 に非常に近く、有意ではない
+<ul>
+<li>ageが1歳増えても <span class="math inline">\(y=1\)</span> になる確率がほぼ変わらない</li>
+</ul></li>
+<li>kids（子どもの数）の限界効果は <span class="math inline">\(−0.3\)</span> 付近で大きく負
+<ul>
+<li>子どもの人数を 1 人増やすと <span class="math inline">\(y=1\)</span> になる確率が 約30%低下</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="probitlogitモデル推定における誤差項とは何か" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Probit/Logitモデル推定における誤差項とは何か?</h1>
+<p>個別に質問があったので回答を共有しておきます。議論の単純化のため、2項モデルの場合を前提にします。</p>
+<section id="線形確率モデル" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="線形確率モデル"><span class="header-section-number">4.1</span> 線形確率モデル</h2>
+<p>probitやlogitモデルを使うようなデータの特徴は<strong>被説明変数が0/1などのダミー変数</strong>であるところです。</p>
+<p>つまり、「被説明変数 <span class="math inline">\(Y\)</span> を <span class="math inline">\(0, 1\)</span> をとるダミー変数」の場合に</p>
+<p><span class="math display">\[
+Y_{i} = \alpha + \beta X_{i} +u_{i}
+\]</span></p>
+<p>を推定すると考えることもできます。この時、<span class="math inline">\(Y_{i}=1\)</span> となる確率を <span class="math inline">\(P(Y=1)\)</span> とすると <span class="math inline">\(Y\)</span> の期待値は</p>
+<p><span class="math display">\[
+E[Y_{i}] = P(Y=1) × 1 + (1-P(Y=1)) × 0 = P(Y=1)
+\]</span></p>
+<p>すなわち</p>
+<p><span class="math display">\[
+E[Y_{i}] = P(Y=1) = \alpha + \beta X_{i}
+\]</span></p>
+<p>となるので(<span class="math inline">\(u_{i}\)</span> の期待値は0なので)、もともとの推定式は</p>
+<p>「<span class="math inline">\(Y=1\)</span> となる確率を <span class="math inline">\(X\)</span> で説明する」</p>
+<p>というモデルと解釈できます。この時、誤差項 <span class="math inline">\(u\)</span> は</p>
+<p><span class="math display">\[
+u_{i} = Y_{i} - \alpha - \beta X_{i} = Y_{i} - P(Y=1)
+\]</span></p>
+<p>と書けるので <span class="math inline">\(Y=1\)</span> なら <span class="math inline">\(u=1-P(Y=1)\)</span>, <span class="math inline">\(Y=0\)</span> ならば <span class="math inline">\(u=-P(Y=1)\)</span> となります。</p>
+<p>つまり、<span class="math inline">\(u\)</span> は</p>
+<p><strong>「実際のYの結果」 - 「モデルによるYの予測確率」</strong></p>
+<p>を表しているといえます</p>
+<p>つまり、</p>
+<ul>
+<li>モデルは「確率 <span class="math inline">\(P = \alpha + \beta X_{i}\)</span> 」を予測</li>
+<li>実際には「<span class="math inline">\(Y=0 \text{or} 1\)</span> 」という離散的な結果が観測される</li>
+<li>そのズレが <span class="math inline">\(u\)</span></li>
+</ul>
+<p>具体例で考えると</p>
+<p>例: ある人が大学進学する確率をモデルで推定</p>
+<ul>
+<li>モデルの予測: <span class="math inline">\(P = \alpha + \beta X_{i}=0.7\)</span> (70%の確率で進学)</li>
+<li>実際の結果: <span class="math inline">\(Y = 1\)</span> (実際に進学した)</li>
+<li>誤差項: <span class="math inline">\(u = 1 - 0.7 = 0.3\)</span></li>
+</ul>
+<p>なので <span class="math inline">\(u\)</span> はそのずれを表しているといえます。</p>
+</section>
+<section id="潜在変数モデル" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="潜在変数モデル"><span class="header-section-number">4.2</span> 潜在変数モデル</h2>
+<p>一方、プロビット/ロジットモデルでは、確率を非線形関数 <span class="math inline">\(F()\)</span> で表します： <span class="math display">\[
+P(Y_{i}=1)=F(\alpha + \beta X_{i})
+\]</span></p>
+<p>Probit/Logit のモデルには直接には誤差項は出てきません。なぜならこれは 「<span class="math inline">\(Y=1\)</span> となる確率の式を推定する」モデルで、確率は誤差を「平均した結果」だからです。</p>
+<p>プロビットモデルとロジットモデルにおける誤差項とは「観測されない<strong>潜在変数</strong>に付く誤差項」のことになります。</p>
+<p>2項プロビット/ロジットモデルの背後にある考え方として、データを分析する側には観察されない <span class="math inline">\(Y^{*}\)</span> という潜在的な変数があったとして、それが説明変数 <span class="math inline">\(X\)</span>をつかって</p>
+<p><span class="math display">\[
+Y^{*} = \alpha + \beta X_{i} +u_{i}
+\]</span></p>
+<p>と書けると考えます。</p>
+<p>この時に</p>
+<p><span class="math display">\[
+Y_{i} =
+\begin{cases}
+1 &amp; Y^{*} = bX+u&gt;0 \\
+0 &amp; \text{それ以外}
+\end{cases}
+\]</span></p>
+<p>というルールで <span class="math inline">\(Y_{i}\)</span> が1もしくは0をとっていると考えます。</p>
+<p>この考えのもとで</p>
+<p><span class="math display">\[
+P(Y_{i}=1)=F(\alpha + \beta X_{i})
+\]</span></p>
+<p>を推定するのがプロビット/ロジットモデルです。</p>
+<p>観測レベルでは、<span class="math inline">\(Y\)</span> は 0か1 のどちらかしかとりません。分析者が知りたいのは、</p>
+<p>「どんな要因（<span class="math inline">\(X\)</span>）があると <span class="math inline">\(Y=1 (0)\)</span> になりやすいか？」</p>
+<p>です。そのために</p>
+<p>「<span class="math inline">\(X\)</span> という説明要因があったときにY=1となる確率」<span class="math inline">\(P(Y=1)\)</span></p>
+<p>を推定しようとします。</p>
+<p>例として</p>
+<ul>
+<li><span class="math inline">\(X\)</span>: 親の所得</li>
+<li><span class="math inline">\(Y\)</span>: 大学進学（1）or 非進学（0）</li>
+</ul>
+<p>を考えます。</p>
+<p>親の所得が <span class="math inline">\(X\)</span> 万円の家庭を考えると：</p>
+<ul>
+<li>学生A：<span class="math inline">\(Y=1\)</span>（進学）</li>
+<li>学生B：<span class="math inline">\(Y=0\)</span>（非進学）</li>
+<li>学生C：<span class="math inline">\(Y=1\)</span>（進学）</li>
+</ul>
+<p>というデータが得られたとします。</p>
+<p>この時それぞれの学生には、それぞれ親の所得では説明できない事情があるはずです：</p>
+<ul>
+<li>A：奨学金が取れた（+要因）</li>
+<li>B：家族の介護（−要因）</li>
+<li>C：強い本人の意志（+要因）</li>
+</ul>
+<p>親の所得とそれ以外の要因(誤差項)によって学生の進学選択を決める潜在的な要因 <span class="math inline">\(Y^{*}\)</span> が決定され、それによって進学行動 <span class="math inline">\(Y=1 (0)\)</span> が回答として出てきていると考えているわけです。</p>
+<p>なのでプロビット/ロジットモデルにおける誤差項は線形モデルと同じようには考えることができないわけです。</p>
 </section>
 </section>
 
@@ -482,7 +662,8 @@ Y_{i} = \alpha + \beta X_{i} + u_{i}
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>正確には「説明変数 <span class="math inline">\(X\)</span> が与えられたもとで被説明変数 <span class="math inline">\(Y\)</span> が1をとる条件付き確率 <span class="math inline">\(\text{Pr}(Y=1|X)\)</span> です。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>正確には「説明変数 <span class="math inline">\(X\)</span> が与えられたもとで被説明変数 <span class="math inline">\(Y\)</span> が1をとる条件付き確率 <span class="math inline">\(\text{P}(Y=1|X)\)</span> です。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>2項モデルの場合はこのような解釈になります。多項モデルの場合は順序付きの場合はほとんど同じです。順序なしの場合は少し複雑になります。詳しくは第7講で。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->
