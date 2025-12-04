@@ -1,0 +1,59 @@
+---
+title: "Pitfalls in Student Report Assignments"
+subtitle: "How Spurious Correlations Distort Empirical Findings"
+date: today
+date-format: full
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+execute: 
+  echo: false
+  warning: false
+  message: false
+format: typst
+engine: knitr #knitr for R, jupyter for Python
+brand:
+  typography:      
+    fonts:
+      - family: Noto Serif JP
+        source: google
+      - family: IBM Plex Sans JP
+        source: google
+    base: Noto Serif JP
+    headings:
+      family: IBM Plex Sans JP
+      weight: regular
+number-sections: true
+---
+
+# Introduction
+
+In many introductory economics or statistics courses, students are often asked to analyze publicly available data and “find correlations” between variables. While such assignments appear pedagogically useful, they can unintentionally lead students to misinterpret correlations as economically meaningful relationships.
+
+Time-series data in particular are prone to spurious correlations, where two variables appear strongly correlated simply because they both follow similar upward or downward trends. Without appropriate statistical techniques, students may draw incorrect causal conclusions and reinforce misunderstandings about empirical methods.
+
+This report highlights these risks through a simple empirical demonstration and proposes improvements in assignment design.
+
+# Case Study: When Assignments Mislead
+
+```{r}
+#| label: setup
+#| include: false
+
+install.packages(c("tseries", "ggplot2", "dplyr", "lmtest", "patchwork"))
+library(tseries)
+library(ggplot2)
+library(dplyr)
+library(lmtest)
+library(patchwork)
+```
+
+```{r}
+# 数値ベクトル
+dat = c( 1, 2, 4, 8, 16, 32 )
+
+# plot 関数で図が出力される
+plot( dat )
+```
