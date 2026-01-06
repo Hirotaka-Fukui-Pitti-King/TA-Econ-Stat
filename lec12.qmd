@@ -1,0 +1,135 @@
+---
+title: "第12回講義コード解説"
+subtitle: "2025年度 神戸大学経済学部・経済統計学"
+date: today
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+
+format:
+  typst:
+    theme: default
+    mainfont: "Noto Serif JP"
+    sansfont: "IBM Plex Sans JP"
+    number-sections: true
+execute:
+  echo: true          
+jupyter: nbstata      
+brand:
+  typography:
+    fonts:
+      - family: "Noto Serif JP"
+        source: google
+      - family: "IBM Plex Sans JP"
+        source: google
+    base: "Noto Serif JP"
+    headings:
+      family: "IBM Plex Sans JP"
+      weight: regular
+---
+
+# RDDの推定
+
+藪先生の教科書p319の例14-4: 「RDDの例2-選挙における現職候補者の優位性」です。
+
+## パッケージのインストール
+
+```{stata}
+clear all
+set more off
+
+net install rdrobust, from(https://raw.githubusercontent.com/rdpackages/rdrobust/master/stata) replace
+net install rddensity, from(https://raw.githubusercontent.com/rdpackages/rddensity/master/stata) replace
+net install rdlocrand, from(https://raw.githubusercontent.com/rdpackages/rdlocrand/master/stata) replace
+net install lpdensity, from(https://raw.githubusercontent.com/nppackages/lpdensity/master/stata) replace
+```
+
+- RDD分析で標準的に使われる Calonico–Cattaneo–Titiunik 系の公式パッケージを入れている
+
+特に重要なのは：
+
+- rdrobust：最適バンド幅＋ローカル多項式RDD推定
+- rdplot：RDDのグラフ
+- rddensity：running variableの操作検定（McCrary test）
+
+## データのインポート
+
+```{stata}
+import delimited 12-1.csv, clear
+```
+
+## 変数の定義
+
+- 得票率差: running variable
+- 勝敗: treatment
+- 次期の成果（再選、政策、支出など): outcome
+
+```{stata}
+gen W = diff_share
+gen X = W>=0
+gen Y = myoutcomenext
+```
+
+## RDDプロット
+```{stata}
+rdplot Y W if W>=-0.2 & W<=0.2, nbins(20 20) c(0) p(3) ///
+    graph_options(xtitle("t期の得票率差") ytitle("t+1期のアウトカム"))
+```
+
+- カットオフ W = 0 周辺だけを使って、左右それぞれに 3次多項式を当てたRDDグラフを描画
+- W=0でYがジャンプしているか？がポイント。
+- カットオフW=0の周り ±0.2 のデータを使って
+  - 左右それぞれ20個のビンに分け
+  - 3次多項式を当てたRDDプロットを描いている
+
+## RDD推定用の変数作成
+
+```{stata}
+gen W2 = W^2
+gen W3 = W^3
+gen WX = W*X
+gen WX2 = W2*X
+gen WX3 = W3*X
+```
+
+## 3次式でのRDD回帰
+
+```{stata}
+reg Y X W W2 W3 WX WX2 WX3 if(W>=-0.2 & W<=0.2), r
+```
+
+回帰式
+
+$$
+Y_{i} = \alpha + \tau X_{i} + \beta_{1} W_{i}+\beta_{2} W_{i}^{2}+\beta_{3} W_{i}^{3}+ \gamma_{1}(W_{i}X_{i})+\gamma_{2}(W_{i}^{2}X_{i})+\gamma_{3}(W_{i}^{3}X_{i})+\epsilon_{i}
+$$
+
+- カットオフの左右で 別々の3次多項式
+- X の係数 = 不連続ジャンプ（因果効果）
+- 多項式（3次）を左右で別に当てる回帰（交差項で表現）
+
+## ローカル線形RDD
+
+```{stata}
+reg Y X W WX if(W>=-0.15 & W<=0.15), r
+```
+
+- バンド幅を狭めて左右で別の直線を当てる
+- 線形（ローカル線形）でバンド幅を変えた推定
+
+## rdrobust
+
+```{stata}
+rdrobust Y W, kernel(triangular) c(0) 
+```
+
+- バンド幅と推定を自動でやる（rdrobust）
+
+| 方法         | 近似思想    | 一致性   | バイアス処理 | 標準誤差 |
+| ---------- | ------- | ----- | ------ | ---- |
+| ⑤ 高次多項式    | グローバル近似 | ❌保証なし | 無視     | 不正確  |
+| ⑥ ローカル線形   | 局所テイラー  | ✅     | 残る     | 不完全  |
+| ⑦ rdrobust | 局所＋補正   | ✅     | 明示補正   | 正しい  |

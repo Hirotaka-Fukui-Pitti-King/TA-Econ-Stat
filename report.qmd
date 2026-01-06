@@ -1,0 +1,50 @@
+---
+title: "経済統計学レポート"
+date: 2026-01-26
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+execute: 
+  echo: false
+  warning: false
+  message: false
+format: docx
+engine: jupyter
+brand:
+  typography:      
+    fonts:
+      - family: Noto Serif JP
+        source: google
+      - family: IBM Plex Sans JP
+        source: google
+    base: Noto Serif JP
+    headings:
+      family: IBM Plex Sans JP
+      weight: regular
+number-sections: true
+---
+
+# マーシャル=ラーナー条件の検定
+
+本節では report.csvに含まれる被説明変数群の中から輸出( $ex$ )と輸入( $im$ )を選択し、また指定された説明変数群の中から円ドルレート( $exr$ )を用いて、日本におけるマーシャル=ラーナー条件成立に関する統計的仮説検定を試みる。各変数の時系列プロット及び要約統計量は以下のとおりである
+
+## マーシャル=ラーナー条件の導出
+
+本項では推定に用いる回帰式の導出を行う。以下、$e$ を日本のドルに対する自国通貨建て為替レート $JPY/USD$ とする。よって $e$ の上昇は円安 (自国通貨の減価)を表す。また可読性を確保するため、実際に推定に用いる変数名は小文字で書き、それ以外の変数は大文字で書くこととする。日本から見た自国通貨建て貿易収支を
+
+$$
+TB = P_{ex} ex - e P^{*}_{im} im
+$$
+
+とおく。ここで $P_{ex}$, $P^{*}_{M}$ はそれぞれ輸出財の国内通貨建て価格および輸入財の外国通貨建て価格である。一方でアメリカから見た自国通貨建て貿易収支を $$TB
+
+
+両者ともに長期的には安定しており一定の値をとるものと仮定する。為替レート $e$ の変化
+
+# 金利と輸入の関係性について
+
+## マンデルフレミングモデル
+

@@ -1,0 +1,201 @@
+---
+title: "第11回講義コード解説"
+subtitle: "2025年度 神戸大学経済学部・経済統計学"
+date: today
+date-format: "YYYY年M月D日"
+author:
+  - name: "Hirotaka Fukui"
+    email: "227e127e@gsuite.kobe-u.ac.jp"
+    affiliations:
+      - name: "Kobe University, Graduate School of Economics"
+
+format:
+  typst:
+    theme: default
+    mainfont: "Noto Serif JP"
+    sansfont: "IBM Plex Sans JP"
+    number-sections: true
+execute:
+  echo: true          
+jupyter: nbstata      
+brand:
+  typography:
+    fonts:
+      - family: "Noto Serif JP"
+        source: google
+      - family: "IBM Plex Sans JP"
+        source: google
+    base: "Noto Serif JP"
+    headings:
+      family: "IBM Plex Sans JP"
+      weight: regular
+---
+
+# DiDの推定(1)
+
+藪先生の教科書p311の例14-2: 「差の差分析によって最低賃金引き上げの効果を見る」です。
+
+## データのインポート
+```{stata}
+clear all
+set more off
+
+import delimited 11-1.csv, clear
+```
+
+### データ内容
+
+[Card, David and Alan B. Krueger. 1994. Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania, American Economic Review 84(4): 772-793.](https://www.jstor.org/stable/2118030)
+
+業種：ファストフード店
+
+地域：
+
+- ニュージャージー州（NJ）＝ 最低賃金を引き上げた州
+- ペンシルベニア州（PA）＝引き上げなかった州
+
+時点：
+
+- 政策前（最低賃金引き上げ前）
+- 政策後（引き上げ後）
+
+変数
+- store: 店舗ID
+- state: 店舗iがニュージャージー(NJ)州に立地しているなら1をとるダミー変数。
+- time: 処置後の11月の調査ならば1をとるダミー変数。 
+- fulltime: フルタイム換算の雇用者数
+- hours: 営業時間
+- register: レジの台数
+
+## パネルデータの作成
+
+```{stata}
+
+xtset store time
+```
+
+## 交差項の作成
+
+```{stata}
+gen timestate = time*state
+```
+
+## 各state×timeでfulltime平均値の比較
+
+```{stata}
+mean fulltime if (state==1 & time==0)  // NJ, before
+mean fulltime if (state==1 & time==1)  // NJ, after
+mean fulltime if (state==0 & time==0)  // PA, before
+mean fulltime if (state==0 & time==1)  // PA, after
+```
+
+- State=1, time=0: ニュージャージー州に店舗が立地していてなおかつ処置前
+- State=1, time=0: ニュージャージー州に店舗が立地していてなおかつ処置後
+- State=0, time=0: ペンシルバニア州に店舗が立地していてなおかつ処置前
+- State=0, time=1: ペンシルバニア州に店舗が立地していてなおかつ処置後
+
+## 回帰式
+
+$$
+Y_{i} = \beta_{0}+\beta_{1} \text{state}+\beta_{2} \text{time}+ \beta_{3}(\text{state} \times \text{time})+\epsilon_{i}
+$$
+
+$Y_{i}$ : fulltime. フルタイム換算の雇用者数。
+
+```{stata}
+reg fulltime state time timestate, vce(cluster store)
+```
+
+`vce(cluster store)`: store(店舗id)をクラスターと考え、クラスター頑健誤差を使用。
+
+### クラスター頑健誤差
+
+通常の OLS や White の不均一分散頑健標準誤差は、暗黙に次を仮定。
+
+- 観測値どうしは **独立**
+- 誤差の共分散行列は  
+  - OLS：同分散・独立  
+  - White：異分散は許すが **相関は許さない**
+
+しかし実際のデータでは、
+
+- 同一個人の複数時点（パネル）
+- 同一企業・学校・地域に属する観測
+- 同一政策単位（州・県・国）
+
+など、**クラスター内で誤差が相関**している状況が非常に多い。
+
+この相関を無視すると、標準誤差が過小評価され、  
+**t 値が過大・有意性が過剰**になる。
+
+観測値をクラスター $g = 1, \dots, G $ に分け、次を仮定する。
+
+- **異なるクラスター間**：誤差は独立  
+- **同一クラスター内**：誤差は自由に相関してよい
+
+数式で書くと、誤差共分散行列は **ブロック対角構造**：
+
+$$
+E[e_g e_{g'}' \mid X] =
+\begin{cases}
+\Omega_g & (g = g') \\
+0 & (g \neq g')
+\end{cases}
+$$
+
+これは White（対角行列）よりも一般的な仮定。OLS 推定量自体は変わらないが、分散推定量を次で計算する。
+
+$$
+\widehat{V}_{\text{cluster}}
+=
+(X'X)^{-1}
+\left(
+\sum_{g=1}^G X_g' \hat e_g \hat e_g' X_g
+\right)
+(X'X)^{-1}
+$$
+
+- $X_g$：クラスター $g$ に属する説明変数行列  
+- $\hat e_g$：同じクラスター内の残差ベクトル  
+
+- White：観測値ごとに $\hat e_i^2 X_i X_i' $
+- Cluster：**クラスター単位**で $\hat e_g \hat e_g'$ を使う
+
+| 推定方法 | 許される構造 |
+|---|---|
+| 通常 OLS | 同分散・独立 |
+| White | 異分散 OK、相関 NG |
+| クラスター | 異分散 OK、クラスター内相関 OK |
+
+White は **クラスター構造があると破綻**する可能性がある。
+
+- クラスター頑健誤差は **クラスター数 $G \to \infty $** の漸近理論
+- $G$ が小さいと：
+  - 標準誤差が不安定
+  - t 検定のサイズが歪む
+
+- $G \ge 30 \sim 50$ 程度が望ましい
+- 少ない場合は：
+  - wild cluster bootstrap などを検討
+
+## 固定効果推定
+
+```{stata}
+reg fulltime time timestate i.store, vce(cluster store)
+```
+
+- 店舗ごとの固定効果を入れたうえで、最低賃金引き上げの影響を比較
+
+## 追加コントロールを入れた回帰
+
+```{stata}
+reg fulltime state time timestate hours register, vce(cluster store)
+```
+
+```{stata}
+reg fulltime time timestate hours register i.store, vce(cluster store)
+```
+
+
+
+
