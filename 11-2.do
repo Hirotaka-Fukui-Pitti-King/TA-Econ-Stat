@@ -57,8 +57,6 @@ Y_{i} = \beta_{0}+\beta_{1} \text{state}+\beta_{2} \text{time}+ \beta_{3}(\text{
 Y_{i}: fulltime. フルタイム換算の雇用者数。
 ****************/
 
-reg fulltime state time timestate, vce(cluster store)
-
 /*************
 `vce(cluster store)`: store(店舗id)をクラスターと考え、クラスター頑健誤差を使用。
 **************/
@@ -70,10 +68,6 @@ xtreg fulltime time timestate, fe vce(cluster store)
 /*************
 店舗ごとの固定効果を入れたうえで、最低賃金引き上げの影響を比較
 ***************/
-
-*追加コントロールを入れた回帰
-
-reg fulltime state time timestate hours register, vce(cluster store)
 
 *追加コントロールを入れた固定効果推定
 
