@@ -65,7 +65,7 @@ reg fulltime state time timestate, vce(cluster store)
 
 *固定効果推定
 
-reg fulltime time timestate i.store, vce(cluster store)
+xtreg fulltime time timestate, fe vce(cluster store)
 
 /*************
 店舗ごとの固定効果を入れたうえで、最低賃金引き上げの影響を比較
@@ -75,6 +75,8 @@ reg fulltime time timestate i.store, vce(cluster store)
 
 reg fulltime state time timestate hours register, vce(cluster store)
 
-reg fulltime time timestate hours register i.store, vce(cluster store)
+*追加コントロールを入れた固定効果推定
+
+xtreg fulltime time timestate hours register, fe vce(cluster store)
 
 save 11-2.dta, replace
