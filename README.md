@@ -6,4 +6,4 @@ This repository contains code to clean, harmonize, and structure raw survey data
 
 ## Prerequisites 
 
-Access to the JPSED data requires registration with **SSJDA Direct** and the acquisition of a user ID and password. For further information, see the [SSJDA Direct User’s Guide](https://csrda.iss.u-tokyo.ac.jp/english/infrastructure/access/).
+Access to the JPSED data requires registration with SSJDA Direct and the acquisition of a user ID and password. For further information, see the [SSJDA Direct User’s Guide](https://csrda.iss.u-tokyo.ac.jp/english/infrastructure/access/).
