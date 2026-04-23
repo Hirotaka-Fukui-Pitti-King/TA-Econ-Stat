@@ -12,3 +12,4 @@ Access to the JPSED data requires registration with SSJDA Direct and the acquisi
 
 1. Install R
    - it is recommend to use [rig](https://github.com/r-lib/rig) to install R
+1. Clone this repository (or download it as a ZIP file)
